@@ -5,6 +5,7 @@ kaboom()
 var largura = 48;
 
 loadSprite("bean", "sprites/bean.png");
+loadSprite("coracao", "sprites/coracao.png");
 
 setGravity(1600)
 
@@ -14,6 +15,7 @@ scene("game", () => {
         pos(50, 40),
         body(),
         area(),
+        scale(1),
     ]);
 
     add([
@@ -34,6 +36,17 @@ scene("game", () => {
 
     onKeyPress("space", pular);
     onClick(pular);
+
+    loop(5, () => {
+       var coracao =  add([
+            sprite("coracao"),
+            pos(width(), 350),
+            move(LEFT, 480),
+            body({isStatic: true}),
+            area(),
+            "heart",
+        ]);
+    })
 
 })
 
