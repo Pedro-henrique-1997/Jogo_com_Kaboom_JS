@@ -48,6 +48,22 @@ scene("game", () => {
         ]);
     })
 
+    function criarObstaculos(){
+        add([
+           rect(48, rand(96, 32)),
+           area(),
+           color(0, 198, 0),
+           anchor("botleft"),
+           pos(width(), height() - 48),
+           move(LEFT, 400),
+           outline(4),
+        ]);        
+
+        wait(rand(0.5, 1.5), criarObstaculos);
+    }
+
+    criarObstaculos();
+
 })
 
 
