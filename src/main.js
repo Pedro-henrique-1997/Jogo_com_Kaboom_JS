@@ -57,6 +57,7 @@ scene("game", () => {
            pos(width(), height() - 48),
            move(LEFT, 400),
            outline(4),
+           "tree",
         ]);        
 
         wait(rand(0.5, 1.5), criarObstaculos);
@@ -64,6 +65,41 @@ scene("game", () => {
 
     criarObstaculos();
 
+    var vida = 3;
+
+    var vidasLabel = add([
+        text(vida),
+        pos(24,25),
+    ]);
+
+    jogador.onCollide("heart", (coracao) => {
+        vida++;
+        vidasLabel.text = vida;
+        coracao.destroy();
+    })
+
+    jogador.onCollide("tree", () => {
+        vida--;
+        vidasLabel.text = vida;
+        if(vida == 0){
+            burp();
+            shake();
+            addKaboom(jogador.pos);
+            go("lose");
+        }else{
+            burp();
+            shake();
+            addKaboom(jogador.pos);
+        }
+        
+    })
+
+});
+
+scene("lose", () => {
+    add([
+        text("Fim de Jogo"),
+    ]);
 })
 
 
