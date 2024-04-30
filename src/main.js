@@ -65,11 +65,11 @@ scene("game", () => {
 
     criarObstaculos();
 
-    var vida = 3;
+    var vida = 5;
 
     var vidasLabel = add([
         text(vida),
-        pos(24,25),
+        pos(5,30),
     ]);
 
     jogador.onCollide("heart", (coracao) => {
@@ -94,12 +94,27 @@ scene("game", () => {
         
     })
 
+    var pontos = 0;
+
+    var pontuacao = add([
+        text(pontos),
+        pos(1, 0),
+    ]);
+
+    onUpdate(() => {
+        pontos++;
+        pontuacao.text = pontos;
+    });
+
 });
 
 scene("lose", () => {
     add([
         text("Fim de Jogo"),
     ]);
+
+    onKeyPress("space", () => go("game"));
+    onClick(() => go("game"));
 })
 
 
