@@ -6,6 +6,9 @@ var largura = 48;
 
 loadSprite("bean", "sprites/bean.png");
 loadSprite("coracao", "sprites/coracao.png");
+loadSound("musica", "musicas/SKY.mp3");
+loadSound("pulo", "musicas/maro-jump-sound-effect_1.mp3");
+loadSound("crescer", "musicas/super_mario_bros_mushroom_sound_effect_58k.mp3");
 
 setGravity(1600)
 
@@ -17,6 +20,11 @@ scene("game", () => {
         area(),
         scale(1),
     ]);
+
+    var som = play("musica", {
+        volume: 1.0,
+        loop: true
+    });
 
     add([
         rect(width(), largura),       
@@ -32,6 +40,11 @@ scene("game", () => {
         if(jogador.isGrounded()){
             jogador.jump(800);
         }
+
+        play("pulo", {
+            volume: 0.25
+        });
+        
     }
 
     onKeyPress("space", pular);
@@ -78,6 +91,10 @@ scene("game", () => {
         HeartCont++;
         vidasLabel.text = vida;
         coracao.destroy();
+
+        play("crescer", {
+            volume: 0.5
+        });
     })
 
     jogador.onCollide("tree", () => {
@@ -87,7 +104,7 @@ scene("game", () => {
             burp();
             shake();
             addKaboom(jogador.pos);
-            go("lose", pontos, HeartCont);
+            go("lose", pontos, HeartCont, som);
         }else{
             burp();
             shake();
@@ -110,7 +127,7 @@ scene("game", () => {
 
 });
 
-scene("lose", (pontos, HeartCont) => {
+scene("lose", (pontos, HeartCont, som) => {
     add([
         sprite("bean"),
         pos(500, 200),
@@ -134,6 +151,8 @@ scene("lose", (pontos, HeartCont) => {
         pos(730, 320),
         scale(2),
     ]);
+
+    som.paused = true;
 
     onKeyPress("space", () => go("game"));
     onClick(() => go("game"));
