@@ -66,6 +66,7 @@ scene("game", () => {
     criarObstaculos();
 
     var vida = 5;
+    var HeartCont = 0;
 
     var vidasLabel = add([
         text(vida),
@@ -74,6 +75,7 @@ scene("game", () => {
 
     jogador.onCollide("heart", (coracao) => {
         vida++;
+        HeartCont++;
         vidasLabel.text = vida;
         coracao.destroy();
     })
@@ -85,7 +87,7 @@ scene("game", () => {
             burp();
             shake();
             addKaboom(jogador.pos);
-            go("lose");
+            go("lose", pontos, HeartCont);
         }else{
             burp();
             shake();
@@ -108,9 +110,29 @@ scene("game", () => {
 
 });
 
-scene("lose", () => {
+scene("lose", (pontos, HeartCont) => {
     add([
-        text("Fim de Jogo"),
+        sprite("bean"),
+        pos(500, 200),
+        scale(2),
+    ]);
+
+    add([
+        text(pontos),
+        pos(500, 320),
+        scale(2),
+    ]);
+
+    add([
+        sprite("coracao"),
+        pos(700, 200),
+        scale(2),
+    ]);
+
+    add([
+        text(HeartCont),
+        pos(730, 320),
+        scale(2),
     ]);
 
     onKeyPress("space", () => go("game"));
